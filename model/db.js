@@ -10,15 +10,15 @@ const db = mongoose.connect(uriDb, {
 });
 
 mongoose.connection.on("connected", () => {
-  console.log("Mongoose connection to db");
+  console.log("Database connection successful");
 });
 
 mongoose.connection.on("error", (err) => {
-  console.log(`Mongoose connection error: ${err.message}`);
+  console.log(`Database connection successful error: ${err.message}`);
 });
 
 mongoose.connection.on("disconnected", () => {
-  console.log("Mongoose disconnected");
+  console.log("Database disconnected");
 });
 
 process.on("SIGINT", async () => {
