@@ -14,7 +14,11 @@ const create = async ({ email, password, subscription }) => {
 };
 
 const updateToken = async (id, token) => {
-  return User.updateOne({ _id: id }, { token });
+  return await User.updateOne({ _id: id }, { token });
+};
+
+const updateAvatar = async (id, avatarURL, imgIdCloud) => {
+  return await User.updateOne({ _id: id }, { avatarURL, imgIdCloud });
 };
 
 module.exports = {
@@ -22,4 +26,5 @@ module.exports = {
   findById,
   create,
   updateToken,
+  updateAvatar,
 };

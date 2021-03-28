@@ -1,6 +1,6 @@
 const Contacts = require("../model/contacts");
 
-const getAll = async (req, res, next) => {
+const getContacts = async (req, res, next) => {
   try {
     const userId = req.user.id;
     const contacts = await Contacts.listContacts(userId, req.query);
@@ -18,7 +18,7 @@ const getAll = async (req, res, next) => {
 const getById = async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const contact = await Contacts.getContactById(req.params.id, userId);
+    const contact = await Contacts.getContactById(req.params.contactId, userId);
 
     if (contact) {
       return res.json({
@@ -56,7 +56,7 @@ const create = async (req, res, next) => {
 const remove = async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const contact = await Contacts.removeContact(req.params.id, userId);
+    const contact = await Contacts.removeContact(req.params.contactId, userId);
 
     if (contact) {
       return res.json({
@@ -80,7 +80,7 @@ const update = async (req, res, next) => {
   try {
     const userId = req.user.id;
     const contact = await Contacts.updateContact(
-      req.params.id,
+      req.params.contactId,
       req.body,
       userId
     );
@@ -103,46 +103,39 @@ const update = async (req, res, next) => {
   }
 };
 
-const updateStatus = async (req, res, next) => {
+const updateContactPhone = async (req, res, next) => {
   try {
-    if (Object.keys(req.body).length === 0) {
-      return res.json({
-        status: "error",
-        code: 400,
-        message: "missing fields",
-      });
-    }
-
-    const userId = req.user.id;
+    const userId = req.user.id
     const contact = await Contacts.updateContact(
-      req.params.id,
+      req.params.contactId,
       req.body,
       userId
-    );
-
+    )
     if (contact) {
       return res.json({
-        status: "success",
+        status: 'success',
         code: 200,
-        data: { contact },
-      });
+        data: {
+          contact,
+        },
+      })
     } else {
-      return res.status(404).json({
-        status: "error",
-        code: 404,
-        message: "Not found",
-      });
+      return res.status(400).json({
+        status: 'error',
+        code: 400,
+        data: 'Missing fields',
+      })
     }
-  } catch (e) {
-    next(e);
+  } catch (error) {
+    next(error)
   }
-};
+}
 
 module.exports = {
-  getAll,
+  getContacts,
   getById,
   create,
   remove,
   update,
-  updateStatus,
-};
+  updateContactPhone,
+}
