@@ -16,9 +16,10 @@ router.post(
 router.post("/login", validate.login, userController.login);
 router.post("/logout", guard, userController.logout);
 router.patch(
-  '/avatars',
-  [guard, upload.single('avatar'), validate.uploadAvatar],
-  userController.avatars
-)
+  "/avatars",
+  [guard, upload.single("avatar"), validate.uploadAvatar],
+  userController.avatars,
+  router.get("/verify/:token", userController.verify),
+);
 
 module.exports = router;
